@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">FINAL_ANDROID_PROJECT</string>
+    <string name="loginbtn">LOGIN</string>
+    <string name="username">Username</string>
+    <string name="Password">Password</string>
+    <string name="enterusername">enter username ...</string>
+    <string name="enterpass">enter Pass...</string>
+    <string name="registerbtn">Register</string>
+    <string name="dashboard">dashboard</string>
+</resources>
