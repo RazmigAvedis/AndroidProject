@@ -7,12 +7,11 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface OpenMeteoService {
-    @GET("onecall")
+    @GET("forecast")
     Call<JsonObject> getWeatherData(
-            @Query("lat") double latitude,
-            @Query("lon") double longitude,
-            @Query("exclude") String exclude,
-            @Query("units") String units,
-            @Query("appid") String apiKey
+            @Query("latitude") double latitude,
+            @Query("longitude") double longitude,
+            @Query("current_weather") boolean currentWeather,
+            @Query("daily") String daily
     );
 }

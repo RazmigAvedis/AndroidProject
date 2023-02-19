@@ -1,6 +1,7 @@
 package com.example.final_android_project;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -18,7 +19,7 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 
-public class WeatherActivity  extends AppCompatActivity {
+public class LocationActivity extends AppCompatActivity {
 
     private MapView map;
     private IMapController mapController;
@@ -33,7 +34,7 @@ public class WeatherActivity  extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_weather);
+        setContentView(R.layout.activity_location);
 
         //handle permissions first, before map is created. not depicted here
         Button getLocationButton = (Button) findViewById(R.id.getLocationButton);
@@ -42,6 +43,14 @@ public class WeatherActivity  extends AppCompatActivity {
             public void onClick(View v) {
             IGeoPoint iGeoPoint=map.getMapCenter();
                 Log.i("Weather",String.valueOf(iGeoPoint.getLatitude()));
+
+                Bundle bundle = new Bundle();
+                bundle.putDouble("long",iGeoPoint.getLongitude());
+                bundle.putDouble("lat",iGeoPoint.getLatitude());
+
+                Intent intent = new Intent(LocationActivity.this, WeatherActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
 

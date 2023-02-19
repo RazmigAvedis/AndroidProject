@@ -3,14 +3,20 @@ package com.example.final_android_project;
 import com.google.gson.annotations.SerializedName;
 
 public class WeatherData {
-    @SerializedName("datetime")
-    private String datetime;
+    @SerializedName("time")
+    public String datetime;
 
-    @SerializedName("temp")
-    private double temperature;
+    @SerializedName("temperature")
+    public double temperature;
 
-    @SerializedName("rh")
-    private int humidity;
+    @SerializedName("weathercode")
+    public int weathercode;
+
+    @SerializedName("windspeed")
+    public double windspeed;
+
+    @SerializedName("winddirection")
+    public double winddirection;
 
     // getters and setters
 }

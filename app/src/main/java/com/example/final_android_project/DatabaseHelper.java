@@ -1,2 +1,165 @@
-package com.example.final_android_project;public class DatabaseHelper {
+package com.example.final_android_project;
+
+import android.annotation.SuppressLint;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.DatabaseErrorHandler;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+;import androidx.annotation.Nullable;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class DatabaseHelper extends SQLiteOpenHelper {
+    private static final String TAG = "DatabaseHelper";
+
+    private static final String TABLE_NAME = "users_table";
+
+    String[] columnsForCreate = {"username TEXT", "password TEXT"};
+    String[] columns = {"username", "password"};
+    public DatabaseHelper(@Nullable Context context) {
+        super(context, TABLE_NAME, null,1);
+    }
+
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int i, int i1) {
+        db.execSQL("DROP IF TABLE EXISTS " + TABLE_NAME);
+        onCreate(db);
+    }
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("CREATE TABLE ").append(TABLE_NAME).append(" (ID INTEGER PRIMARY KEY AUTOINCREMENT, ");
+
+        for (int i = 0; i < columnsForCreate.length; i++) {
+            sb.append(columnsForCreate[i]);
+            if (i < columnsForCreate.length - 1) {
+                sb.append(", ");
+            }
+        }
+
+        sb.append(")");
+        db.execSQL(sb.toString());
+    }
+
+
+    public boolean addData(String[] values) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        for (int i = 0; i < columns.length; i++) {
+            contentValues.put(columns[i], values[i]);
+        }
+
+        Log.d(TAG, "addData: Adding " + Arrays.toString(values) + " to " + TABLE_NAME);
+
+        long result = db.insert(TABLE_NAME, null, contentValues);
+
+        if (result == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * Returns all the data from database
+     * @return
+     */
+    public Cursor getData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_NAME;
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }
+
+    /**
+     * Returns only the ID that matches the name passed in
+     * @param id
+     * @return
+     */
+    public Cursor getItem(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT ID FROM " + TABLE_NAME +
+                " WHERE ID = '" + id + "'";
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }
+
+    /**
+     * Returns only the ID that matches the name passed in
+     *
+     * @param id
+     * @return
+     */
+    public String getProfileId(String username, String password) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("select id from " + TABLE_NAME + " where username=? and password=?", new String[]{username, password});
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst(); // move to the first row
+            @SuppressLint("Range") String id = cursor.getString(cursor.getColumnIndex("ID")); // get the ID column value
+            cursor.close();
+            return id;
+        } else {
+            cursor.close();
+            return null;
+        }
+    }
+
+
+    /**
+     * Returns only the ID that matches the name passed in
+     *
+     * @param id
+     * @return
+     */
+    public boolean checkProfile(String username, String password) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("select * from " + TABLE_NAME + " where username=? and password = ?", new String[]{username, password});
+        if (cursor.getCount() > 0) return true;
+        else return false;
+    }
+
+    /**
+     * Updates the name field
+     * @param newColumns
+     * @param id
+     */
+    public void updateProfile(String[] newColumns, int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < columns.length; i++) {
+            sb.append(columns[i]).append(" = '").append(newColumns[i]).append("'");
+            if (i < columns.length - 1) {
+                sb.append(", ");
+            }
+        }
+
+
+        String query = "UPDATE " + TABLE_NAME + " SET " +sb +" WHERE ID = '" + id + "'";
+        Log.d(TAG, "updateName: query: " + query);
+        Log.d(TAG, "updateName: Setting name to " + Arrays.toString(newColumns));
+        db.execSQL(query);
+    }
+
+    /**
+     * Delete from database
+     * @param id
+     */
+    public void deleteProfile(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "DELETE FROM " + TABLE_NAME + " WHERE ID = '" + id + "'";
+        Log.d(TAG, "deleteProfile: query: " + query);
+        Log.d(TAG, "deleteProfile: Deleting " + id + " from database.");
+        db.execSQL(query);
+    }
+
 }
