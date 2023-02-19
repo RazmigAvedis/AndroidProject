@@ -4,11 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -22,18 +22,13 @@ public class WeatherActivity extends AppCompatActivity {
 
     private double longitude;
     private double latitude;
-    private TextView timeText = findViewById(R.id.timeTextView);
-    private TextView weatherCodeText = findViewById(R.id.weatherCodeTextView);
-    private TextView windSpeedText = findViewById(R.id.windspeedTextView);
-    private TextView windDirectionText = findViewById(R.id.winddirectionTextView);
-    private TextView temperatureText = findViewById(R.id.temperatureTextView);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i("WeatherActivity","In weather activity");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
 
-        Button backButton = findViewById(R.id.floatingBackActionButton);
+        FloatingActionButton backButton = findViewById(R.id.floatingBackActionButton);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,8 +51,7 @@ public class WeatherActivity extends AppCompatActivity {
         Call<JsonObject> call = service.getWeatherData(
                 latitude, // latitude
                 longitude, // longitude
-                true,// exclude,
-                ""
+                true// exclude,
         );
 
         Log.i("WeatherActivity", "weatherData.toString()");
@@ -65,12 +59,23 @@ public class WeatherActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful()) {
-                    JsonObject jsonObject = response.body();
+                    JsonObject jsonObject = response.body();// First, create a Gson object
                     Gson gson = new Gson();
-                    WeatherData weatherData = gson.fromJson(jsonObject, WeatherData.class);
+// Next, extract the "current_weather" object from the JsonObject
+                    JsonObject currentWeatherObject = jsonObject.getAsJsonObject("current_weather");
 
-                    timeText.setText(weatherData.datetime);
-                    weatherCodeText.setText(weatherData.weathercode);
+// Finally, cast the current_weather object into your class
+                    WeatherData weatherData = gson.fromJson(currentWeatherObject, WeatherData.class);
+
+                    Log.i("WeatherActivity",currentWeatherObject.toString());
+                    TextView timeText = findViewById(R.id.timeTextView);
+                    TextView weatherCodeText = findViewById(R.id.weatherCodeTextView);
+                    TextView windSpeedText = findViewById(R.id.windspeedTextView);
+                    TextView windDirectionText = findViewById(R.id.winddirectionTextView);
+                    TextView temperatureText = findViewById(R.id.temperatureTextView);
+
+                    timeText.setText(String.valueOf(weatherData.datetime));
+                    weatherCodeText.setText(String.valueOf(weatherData.weathercode));
                     windSpeedText.setText(String.valueOf(weatherData.windspeed));
                     temperatureText.setText(String.valueOf(weatherData.temperature));
                     windDirectionText.setText(String.valueOf(weatherData.winddirection));

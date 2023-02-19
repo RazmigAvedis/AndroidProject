@@ -11,7 +11,6 @@ public interface OpenMeteoService {
     Call<JsonObject> getWeatherData(
             @Query("latitude") double latitude,
             @Query("longitude") double longitude,
-            @Query("current_weather") boolean currentWeather,
-            @Query("daily") String daily
+            @Query("current_weather") boolean currentWeather
     );
 }
