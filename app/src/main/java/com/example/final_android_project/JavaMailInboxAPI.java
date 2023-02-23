@@ -58,13 +58,13 @@ public class JavaMailInboxAPI extends AsyncTask<Void, Void, Void> {
 
         Session session = Session.getDefaultInstance(properties, new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(email, "zjrh hyob yyky zatc");
+                return new PasswordAuthentication(email, AppConstants.USER_PASSWORD);
             }
         });
 
         try {
             Store store = session.getStore("imaps");
-            store.connect("imap.gmail.com", email, "zjrh hyob yyky zatc");
+            store.connect("imap.gmail.com", email, AppConstants.USER_PASSWORD);
 
             Folder inbox = store.getFolder("INBOX");
             inbox.open(Folder.READ_ONLY);
