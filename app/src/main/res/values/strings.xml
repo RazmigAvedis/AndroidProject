@@ -18,4 +18,10 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="title_activity_main_dashboard">MainDashboardActivity</string>
+    <string name="profile">Profile</string>
+    <string name="logout">Logout</string>
+    <string name="contacts">Contacts</string>
+    <string name="weather">Weather</string>
+    <string name="email">Email</string>
 </resources>

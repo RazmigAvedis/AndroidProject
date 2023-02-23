@@ -1,9 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EmailActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:titleTextColor="@android:color/white"
+        app:title="Email"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="20dp">
+
+
+    <!-- Sender Email Field -->
+    <TextView
+        android:id="@+id/inbox_text_sender_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="From:" />
+
+    <TextView
+        android:id="@+id/inbox_edit_sender_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="sender email"
+        android:textSize="15dp"
+        android:gravity="center_vertical"
+        android:minHeight="48dp" />
+
+    <!-- Email Subject Field -->
+    <TextView
+        android:id="@+id/inbox_text_email_subject"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Subject:" />
+
+    <TextView
+        android:id="@+id/inbox_edit_subject_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="sender email"
+        android:textSize="15dp"
+        android:gravity="center_vertical"
+        android:minHeight="48dp" />
+
+
+    <!-- Email Body Field -->
+    <TextView
+        android:id="@+id/inbox_text_email_body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="Message:" />
+
+
+    <WebView
+        android:id="@+id/inbox_edit_message_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="sender email"
+        android:textSize="15dp"
+        android:gravity="center_vertical"
+        android:layout_marginTop="10dp"
+        android:minHeight="48dp" />
+
+
+
+</LinearLayout>
+</LinearLayout>

@@ -1,13 +1,198 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.Weather.WeatherFragment">
+    tools:context=".ui.Weather.WeatherFragment"
+    android:id="@+id/fragment_weather">
 
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:layout_height="match_parent">
 
-</FrameLayout>
+
+        <!-- Time text view -->
+        <Spinner
+        android:id="@+id/spinnerWeatherLocations"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="40dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Weather image view -->
+        <ImageView
+            android:id="@+id/weatherImageView"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="100dp"
+            android:src="@drawable/weather" />
+
+        <!-- Temperature text view -->
+        <TextView
+            android:id="@+id/temperatureTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/weatherImageView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:text="25°C"
+            android:textColor="#FFFFFF"
+            android:textSize="48sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/temperatureTextView"
+            android:background="@android:color/black"
+            android:layout_marginTop="5dp" />
+
+        <!-- Weather code text view -->
+        <TextView
+            android:id="@+id/weatherCodeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/temperatureTextView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="Weather Code: Sunny"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <!-- Wind speed text view -->
+        <TextView
+            android:id="@+id/windspeedTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/weatherCodeTextView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="Wind Speed: 10 km/h"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <!-- Wind direction text view -->
+        <TextView
+            android:id="@+id/winddirectionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/windspeedTextView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="Wind Direction: N"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/winddirectionTextView"
+            android:background="@android:color/black"
+            android:layout_marginTop="10dp" />
+        <TextView
+            android:id="@+id/weather_forecast_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/winddirectionTextView"
+            android:text="7 day weather Forecast"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+
+        <HorizontalScrollView
+            android:id="@+id/WeatherForecast"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/weather_forecast_title"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <!-- Forecast card for Day 1 -->
+                <include layout="@layout/forecast_card_layout"
+                    android:id="@+id/day1_card"/>
+
+                <!-- Forecast card for Day 2 -->
+                <include layout="@layout/forecast_card_layout"
+                    android:id="@+id/day2_card"/>
+
+                <!-- Forecast card for Day 3 -->
+                <include layout="@layout/forecast_card_layout"
+                    android:id="@+id/day3_card"/>
+
+                <!-- Forecast card for Day 4 -->
+                <include layout="@layout/forecast_card_layout"
+                    android:id="@+id/day4_card"/>
+
+                <!-- Forecast card for Day 5 -->
+                <include layout="@layout/forecast_card_layout"
+                    android:id="@+id/day5_card"/>
+
+                <!-- Forecast card for Day 6 -->
+                <include layout="@layout/forecast_card_layout"
+                    android:id="@+id/day6_card"/>
+
+                <!-- Forecast card for Day 7 -->
+                <include layout="@layout/forecast_card_layout"
+                    android:id="@+id/day7_card"/>
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/WeatherForecast"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/black" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:layout_below="@id/WeatherForecast"
+                android:layout_marginTop="20dp">
+
+            <Button
+                android:id="@+id/GetLocation"
+                android:layout_width="175dp"
+                android:layout_height="wrap_content"
+                android:text="Get Location"/>
+
+            <Button
+                android:id="@+id/DeleteLocation"
+                android:layout_width="175dp"
+                android:layout_height="wrap_content"
+                android:text="Delete Location"/>
+
+            </LinearLayout>
+
+        <TextView
+            android:id="@+id/timeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            android:text="Last Update: 12:00 PM"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
+
+    </RelativeLayout>
+
+</ScrollView>

@@ -4,35 +4,41 @@ import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-;import androidx.annotation.Nullable;
 
-import java.util.ArrayList;
+import androidx.annotation.Nullable;
+
 import java.util.Arrays;
-import java.util.List;
+
+;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "DatabaseHelper";
+    private static final int DATABASE_VERSION = 2;
+    private static final String TABLE_NAME = "user_table";
 
-    private static final String TABLE_NAME = "users_table";
-
-    String[] columnsForCreate = {"username TEXT", "password TEXT"};
-    String[] columns = {"username", "password"};
+    String[] columnsForCreate = {"username TEXT", "password TEXT","email TEXT", "phone TEXT"};
+    String[] columns = {"username", "password", "email", "phone"};
     public DatabaseHelper(@Nullable Context context) {
         super(context, TABLE_NAME, null,1);
+
     }
 
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-        db.execSQL("DROP IF TABLE EXISTS " + TABLE_NAME);
-        onCreate(db);
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        if (oldVersion < DATABASE_VERSION) {
+            Log.i("","Deleting DB");
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+            onCreate(db);
+        }
     }
+
     @Override
     public void onCreate(SQLiteDatabase db) {
+
         StringBuilder sb = new StringBuilder();
         sb.append("CREATE TABLE ").append(TABLE_NAME).append(" (ID INTEGER PRIMARY KEY AUTOINCREMENT, ");
 
@@ -83,9 +89,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @param id
      * @return
      */
-    public Cursor getItem(int id){
+    public Cursor getItem(String id){
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT ID FROM " + TABLE_NAME +
+        String query = "SELECT * FROM " + TABLE_NAME +
                 " WHERE ID = '" + id + "'";
         Cursor data = db.rawQuery(query, null);
         return data;

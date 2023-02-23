@@ -1,13 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.Email.EmailFragment">
+    android:layout_margin="20dp">
+
+    <!-- Sender Email Field -->
+    <TextView
+        android:id="@+id/text_sender_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="From:" />
 
     <TextView
+        android:id="@+id/edit_sender_email"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:layout_height="wrap_content"
+        android:hint="sender email"
+        android:textSize="15dp"
+        android:gravity="center_vertical"
+        android:minHeight="48dp" />
 
-</FrameLayout>
+    <!-- Recipient Email Field -->
+    <TextView
+        android:id="@+id/text_recipient_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="To:" />
+
+    <EditText
+        android:id="@+id/edit_recipient_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="recepient email"
+        android:inputType="textEmailAddress"
+        android:minHeight="48dp" />
+
+    <!-- Email Subject Field -->
+    <TextView
+        android:id="@+id/text_email_subject"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Subject:" />
+
+    <EditText
+        android:id="@+id/edit_email_subject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="subject text"
+        android:minHeight="48dp" />
+
+    <!-- Email Body Field -->
+    <TextView
+        android:id="@+id/text_email_body"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Message:" />
+
+    <EditText
+        android:id="@+id/edit_email_body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:minLines="5"
+        android:gravity="top"
+        android:hint="Message Body"/>
+
+    <!-- Send Button -->
+    <Button
+        android:id="@+id/button_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:text="Send" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/darker_gray"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Inbox (last 20 emails)"
+            android:textSize="20sp"
+            android:textStyle="bold|italic"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"/>
+
+        <ImageButton
+            android:id="@+id/refresh_button"
+            android:background="@null"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_refresh_24"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/list_inbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

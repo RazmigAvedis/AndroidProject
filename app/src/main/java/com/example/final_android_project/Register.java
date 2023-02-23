@@ -48,6 +48,8 @@ public class Register extends AppCompatActivity {
             public void onClick(View v) {
                 EditText username = (EditText) findViewById(R.id.usernameEditText);
                 EditText password = (EditText) findViewById(R.id.passwordEditText);
+                EditText email = (EditText) findViewById(R.id.emailEditText);
+                EditText phone = (EditText) findViewById(R.id.phoneEditText);
                 EditText confirmPassword = (EditText) findViewById(R.id.confirmPasswordEditText);
 
 
@@ -67,10 +69,9 @@ public class Register extends AppCompatActivity {
 
                 if (password.getText().toString().equals(confirmPassword.getText().toString())) {
                     mDatabaseHelper = new DatabaseHelper(Register.this);
-                    String[] values = {username.getText().toString(), encryptedPass};
+                    String[] values = {username.getText().toString(), encryptedPass,email.getText().toString(),phone.getText().toString()};
                     boolean checkuser = mDatabaseHelper.checkProfile(username.getText().toString(), encryptedPass);
                     if (!checkuser) {
-
                         boolean success = mDatabaseHelper.addData(values);
 
                         if (success) {
@@ -78,13 +79,14 @@ public class Register extends AppCompatActivity {
                             String fileName = getPackageName();
                             SharedPreferences sharedPreferences = getSharedPreferences(fileName, MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("currentUsername",username.getText().toString());
+                            String userID= mDatabaseHelper.getProfileId(username.getText().toString(),encryptedPass);
+                            editor.putString(AppConstants.USER_ID_KEY,userID);
                             editor.apply();
 
                             RegisterToDashboardOKMessageBox("Success", "User Registered", (dialog, id) -> {
                                 // User clicked OK button
 
-                                Intent intent1 = new Intent(Register.this, DashboardActivity.class);
+                                Intent intent1 = new Intent(Register.this, MainDashboardActivity.class);
                                 startActivity(intent1);
                             });
                         } else {

@@ -3,23 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_profile">
+
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.example.final_android_project.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/nav_profile"
+        android:name="com.example.final_android_project.ui.Profile.ProfileFragment"
+        android:label="@string/profile"
+        tools:layout="@layout/fragment_profile" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.final_android_project.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_contacts"
+        android:name="com.example.final_android_project.ui.Contacts.ContactsFragment"
+        android:label="@string/contacts"
+        tools:layout="@layout/fragment_contacts" />
+
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.final_android_project.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_weather"
+        android:name="com.example.final_android_project.ui.Weather.WeatherFragment"
+        android:label="@string/weather"
+        tools:layout="@layout/fragment_weather" />
+
+
+    <fragment
+        android:id="@+id/nav_email"
+        android:name="com.example.final_android_project.ui.Email.EmailFragment"
+        android:label="@string/email"
+        tools:layout="@layout/fragment_email" />
 </navigation>

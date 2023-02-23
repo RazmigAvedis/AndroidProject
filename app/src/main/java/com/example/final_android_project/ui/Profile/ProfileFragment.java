@@ -1,38 +1,45 @@
 package com.example.final_android_project.ui.Profile;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-import com.example.final_android_project.R;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.example.final_android_project.databinding.FragmentProfileBinding;
 
 public class ProfileFragment extends Fragment {
 
-    private ProfileViewModel mViewModel;
 
-    public static ProfileFragment newInstance() {
-        return new ProfileFragment();
+    private FragmentProfileBinding binding;
+
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
+        ProfileViewModel ProfileViewModel =
+                new ViewModelProvider(this).get(ProfileViewModel.class);
+
+        binding = FragmentProfileBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
+
+        ProfileViewModel.loadDataForUser(getContext());
+
+        final TextView userNameTextView = binding.tvName;
+        final TextView emailTextView = binding.email;
+        final TextView phoneTextView = binding.phone;
+        ProfileViewModel.getUsername().observe(getViewLifecycleOwner(), userNameTextView::setText);
+        ProfileViewModel.getEmail().observe(getViewLifecycleOwner(), emailTextView::setText);
+        ProfileViewModel.getPhone().observe(getViewLifecycleOwner(), phoneTextView::setText);
+        return root;
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_profile, container, false);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
-        // TODO: Use the ViewModel
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 
 }

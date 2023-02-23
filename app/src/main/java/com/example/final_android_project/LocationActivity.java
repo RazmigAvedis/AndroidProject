@@ -1,7 +1,11 @@
 package com.example.final_android_project;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -19,6 +23,10 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
 public class LocationActivity extends AppCompatActivity {
 
     private MapView map;
@@ -26,7 +34,7 @@ public class LocationActivity extends AppCompatActivity {
 
     private static final String TAG = "OsmActivity";
 
-
+WeatherDatabaseHelper mDatabaseHelper;
     private static final int PERMISSION_REQUEST_CODE = 1;
 
 
@@ -48,9 +56,35 @@ public class LocationActivity extends AppCompatActivity {
                 bundle.putDouble("long",iGeoPoint.getLongitude());
                 bundle.putDouble("lat",iGeoPoint.getLatitude());
 
-                Intent intent = new Intent(LocationActivity.this, WeatherActivity.class);
+                Geocoder geocoder = new Geocoder(LocationActivity.this, Locale.getDefault());
+                List<Address> addresses = null;
+                try {
+                    addresses = geocoder.getFromLocation(iGeoPoint.getLatitude(),iGeoPoint.getLongitude(), 1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                String locationName = "";
+                if (addresses != null && addresses.size() > 0) {
+                    Address address = addresses.get(0);
+                    locationName = address.getAddressLine(0);
+                }
+
+
+                String fileName = getPackageName();
+                SharedPreferences sharedPreferences = getSharedPreferences(fileName, Context.MODE_PRIVATE);
+                String userID = sharedPreferences.getString(AppConstants.USER_ID_KEY, null);
+                mDatabaseHelper = new WeatherDatabaseHelper(LocationActivity.this,userID);
+
+                String[] values ={String.valueOf(iGeoPoint.getLongitude()),String.valueOf(iGeoPoint.getLatitude()),locationName};
+                mDatabaseHelper.addData(values);
+
+                Intent intent = new Intent(LocationActivity.this, MainDashboardActivity.class);
                 intent.putExtras(bundle);
-                startActivity(intent);
+                setResult(Activity.RESULT_OK, intent);
+
+// Finish the new Activity
+                finish();
             }
         });
 
