@@ -2,9 +2,11 @@ package com.example.final_android_project;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.text.Html;
+import android.util.Log;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -109,15 +111,17 @@ public class JavaMailInboxAPI extends AsyncTask<Void, Void, Void> {
                             if (disposition != null && (disposition.equalsIgnoreCase("ATTACHMENT"))) {
                                 // do nothing
                             } else {
-                                // Get the text content of the body part
-                                String bodyPartContent = (String) bodyPart.getContent();
-                                if (bodyPart.isMimeType("text/html")) {
-                                    // Parse HTML content
-//                                    Spanned spanned = Html.fromHtml();
-                                    messageBody += Html.fromHtml(bodyPartContent).toString();
-                                } else {
-                                    messageBody += bodyPartContent;
+                                // Get the input stream for the body part
+                                InputStream inputStream = bodyPart.getInputStream();
+                                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                                int size = 4096 * 10;
+                                byte[] buffer = new byte[size];
+                                int bytesRead;
+                                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                                    outputStream.write(buffer, 0, bytesRead);
                                 }
+                                messageBody += outputStream.toString();
+                                outputStream.close();
                             }
                         }
                     }
@@ -134,6 +138,8 @@ public class JavaMailInboxAPI extends AsyncTask<Void, Void, Void> {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
+
+                Log.i("Email API",subject );
 
                 // Add message data to a list
                 messageList.add(new MyMessage(subject, formattedDate,messageBody,messageFrom));

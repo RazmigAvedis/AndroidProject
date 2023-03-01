@@ -22,6 +22,8 @@ public class EmailActivity extends AppCompatActivity {
         subjectTextView.setText(message.Subject);
         emailFromTextView.setText(message.emailFrom);
         String htmlContent =  message.Message;
-        bodyTextView.loadData(htmlContent, "text/html", "UTF-8");
+        bodyTextView.getSettings().setJavaScriptEnabled(true);
+        bodyTextView.getSettings().setLoadWithOverviewMode(true);
+        bodyTextView.loadDataWithBaseURL(null, htmlContent, "text/html", "UTF-8", null);
     }
 }
